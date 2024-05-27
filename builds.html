@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты</title>
+</head>
+<body>
+    <h1>Ваши случайные билды:</h1>
+    <ul>
+        {% for build in builds %}
+            <li>
+                <h2>Билд:</h2>
+                <ul>
+                    {% for category, (perk, perk_russian) in build %}
+                        <li>{{ category.capitalize() }}: {{ perk_russian }} ({{ perk }})</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
