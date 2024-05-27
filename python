@@ -1,0 +1,29 @@
+from flask import Flask, render_template, request
+import random
+
+app = Flask(__name__)
+
+# Здесь ваш код для перков
+# ...
+
+# Функция для создания случайных билдов
+def generate_builds(categories, num_builds=3):
+    builds = []
+    for _ in range(num_builds):
+        build = random_perks(categories)
+        builds.append(build)
+    return builds
+
+# Здесь ваш код для перков
+
+# Основная страница
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        selected_categories = request.form.getlist('category')
+        builds = generate_builds(selected_categories)
+        return render_template('builds.html', builds=builds)
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
