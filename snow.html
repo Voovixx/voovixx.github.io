@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Snow - Voovixx</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        header {
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .snow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 1em;
+            user-select: none;
+            z-index: 1;
+            pointer-events: none;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+        
+        .snow-effect {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        .description {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 20px auto;
+            opacity: 0.8;
+        }
+        
+        .back-button {
+            margin-top: 40px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(100, 100, 255, 0.5);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="snow-container" id="snow-container"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">Voovixx</div>
+            <div class="tagline">Creating beautiful digital experiences</div>
+        </header>
+        
+        <div class="snow-effect">
+            <h1 class="title">Winter Snow Effect</h1>
+            <p class="description">Enjoy this beautiful animated snow effect created with JavaScript. Each snowflake is individually animated with unique properties for a realistic winter experience.</p>
+            
+            <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('snow-container');
+            const snowflakesCount = 100;
+            const snowflakes = [];
+            
+            // Snowflake characters for variety
+            const snowChars = ['❄', '❅', '❆', '✻', '✼', '❇', '❈', '⁕'];
+            
+            // Create snowflakes
+            for (let i = 0; i < snowflakesCount; i++) {
+                createSnowflake();
+            }
+            
+            function createSnowflake() {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                
+                // Random properties
+                const size = Math.random() * 1.5 + 0.5; // Size between 0.5em and 2em
+                const character = snowChars[Math.floor(Math.random() * snowChars.length)];
+                const xPos = Math.random() * 100; // Position across width
+                const fallDelay = Math.random() * 10; // Delay in seconds
+                const fallDuration = Math.random() * 10 + 10; // Duration between 10-20s
+                const swingAmount = Math.random() * 20 + 10; // Swing between 10-30px
+                
+                // Apply styles
+                snowflake.style.fontSize = `${size}em`;
+                snowflake.innerHTML = character;
+                snowflake.style.left = `${xPos}%`;
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3; // Opacity between 0.3 and 1
+                
+                // Animation properties
+                snowflake.style.animation = `fall ${fallDuration}s linear ${fallDelay}s infinite, 
+                                         swing ${Math.random() * 3 + 2}s ease-in-out infinite alternate`;
+                
+                // Custom properties for the animations
+                snowflake.style.setProperty('--swing-amount', `${swingAmount}px`);
+                
+                // Add to container and array
+                container.appendChild(snowflake);
+                snowflakes.push(snowflake);
+                
+                // Add keyframes for this specific snowflake
+                addSnowflakeAnimations(snowflake, fallDuration, swingAmount);
+            }
+            
+            function addSnowflakeAnimations(snowflake, fallDuration, swingAmount) {
+                // Create unique animation names for each snowflake
+                const fallAnimationName = `fall-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+                const swingAnimationName = `swing-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+                
+                // Add fall animation
+                const fallKeyframes = `@keyframes ${fallAnimationName} {
+                    0% {
+                        transform: translateY(-10vh) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 1;
+                    }
+                    90% {
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(110vh) rotate(${Math.random() * 360}deg);
+                        opacity: 0;
+                    }
+                }`;
+                
+                // Add swing animation
+                const swingKeyframes = `@keyframes ${swingAnimationName} {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(${swingAmount}px);
+                    }
+                }`;
+                
+                // Create style element and append animations
+                const style = document.createElement('style');
+                style.textContent = fallKeyframes + swingKeyframes;
+                document.head.appendChild(style);
+                
+                // Apply the unique animations
+                snowflake.style.animation = `${fallAnimationName} ${fallDuration}s linear ${Math.random() * 10}s infinite, 
+                                         ${swingAnimationName} ${Math.random() * 3 + 2}s ease-in-out infinite alternate`;
+            }
+            
+            // Add more snowflakes periodically for variety
+            setInterval(() => {
+                if (snowflakes.length < 120) { // Limit total number
+                    createSnowflake();
+                    // Remove oldest snowflake if we exceed limit
+                    if (snowflakes.length > 120) {
+                        const removed = snowflakes.shift();
+                        if (removed && removed.parentNode) {
+                            removed.parentNode.removeChild(removed);
+                        }
+                    }
+                }
+            }, 3000);
+            
+            // Optimize by removing off-screen snowflakes
+            function cleanupSnowflakes() {
+                const screenHeight = window.innerHeight;
+                for (let i = snowflakes.length - 1; i >= 0; i--) {
+                    const snowflake = snowflakes[i];
+                    const rect = snowflake.getBoundingClientRect();
+                    
+                    // If snowflake is far below the screen, remove it
+                    if (rect.top > screenHeight + 100) {
+                        if (snowflake.parentNode) {
+                            snowflake.parentNode.removeChild(snowflake);
+                        }
+                        snowflakes.splice(i, 1);
+                    }
+                }
+            }
+            
+            // Run cleanup periodically
+            setInterval(cleanupSnowflakes, 5000);
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                // Recreate all snowflakes on resize for better distribution
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+                snowflakes.length = 0;
+                
+                for (let i = 0; i < snowflakesCount; i++) {
+                    createSnowflake();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
